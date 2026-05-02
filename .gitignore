@@ -1,0 +1,14 @@
+# Environment files (contain secrets)
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local persistent data
+**/data/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
