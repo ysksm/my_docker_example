@@ -1,8 +1,0 @@
-services:
-  tooljet:
-    image: tooljet-local:arm64
-    platform: linux/arm64
-    pull_policy: never
-    build:
-      context: https://github.com/ToolJet/ToolJet.git#main
-      dockerfile: docker/ce-production.Dockerfile

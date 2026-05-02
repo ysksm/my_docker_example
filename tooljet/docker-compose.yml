@@ -1,7 +1,6 @@
 services:
   tooljet:
     image: tooljet/tooljet:latest
-    platform: linux/amd64
     container_name: tooljet
     restart: unless-stopped
     tty: true
