@@ -1,0 +1,39 @@
+services:
+  tooljet:
+    image: tooljet/tooljet:latest
+    container_name: tooljet
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    env_file: .env
+    ports:
+      - "${TOOLJET_HOST_PORT:-80}:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      bash -c "npm --prefix server run db:create &&
+               npm --prefix server run db:migrate &&
+               npm run start:prod"
+    volumes:
+      - tooljet_data:/var/lib/tooljet/data
+
+  postgres:
+    image: postgres:15
+    container_name: tooljet-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_DB: ${PG_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  tooljet_data:
+  postgres_data:
